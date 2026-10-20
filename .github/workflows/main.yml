@@ -1,0 +1,28 @@
+name: Build Mush8 IPA
+
+on:
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: macos-14
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Install Dependencies
+        run: |
+          brew install xcodegen
+          rustup toolchain install 1.98.1
+          rustup target add aarch64-apple-ios --toolchain 1.98.1
+
+      - name: Build iOS IPA
+        run: |
+          chmod +x make-ios.sh
+          ./make-ios.sh --ipa
+
+      - name: Upload IPA
+        uses: actions/upload-artifact@v4
+        with:
+          name: Mush8-IPA
+          path: build/Mush8.ipa
