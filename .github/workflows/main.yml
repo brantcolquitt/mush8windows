@@ -10,11 +10,17 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
 
+      - name: Setup Xcode
+        uses: maxim-lobanov/setup-xcode@v1
+        with:
+          xcode-version: latest-stable
+
       - name: Install Dependencies
         run: |
           brew install xcodegen
           rustup toolchain install 1.98.1
           rustup target add aarch64-apple-ios --toolchain 1.98.1
+          rustup target add aarch64-apple-ios-sim --toolchain 1.98.1
 
       - name: Build iOS IPA
         run: |
