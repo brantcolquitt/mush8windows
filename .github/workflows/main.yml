@@ -24,6 +24,12 @@ jobs:
           rustup target add aarch64-apple-ios --toolchain 1.98.1
           rustup target add aarch64-apple-ios-sim --toolchain 1.98.1
 
+      - name: Setup prod.keys
+        run: |
+          cat << 'EOF' > prod.keys
+          ${{ secrets.PROD_KEYS }}
+          EOF
+
       - name: Build iOS IPA
         run: |
           chmod +x make-ios.sh
